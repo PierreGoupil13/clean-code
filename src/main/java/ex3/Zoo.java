@@ -33,7 +33,7 @@ public class Zoo {
     public void afficherListeAnimaux() {
         System.out.println("Animaux dans le zoo " + nom + ":");
         for (Animal animal : animaux) {
-            System.out.println(animal.toString());
+            System.out.println(animal);
         }
     }
 
