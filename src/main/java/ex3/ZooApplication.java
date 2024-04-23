@@ -14,6 +14,8 @@ public class ZooApplication {
         zoo.addAnimal("Boa constrictor", TypeAnimal.SERPENT, ComportementAnimal.CARNIVORE, 1.5);
         zoo.addAnimal("Python", TypeAnimal.SERPENT, ComportementAnimal.CARNIVORE, 2.2);
 
+        zoo.afficherListeAnimaux();
+
     }
 
 }
