@@ -5,6 +5,9 @@ package ex2;
  */
 public class CompteBancaire {
 
+    private static final String TYPE_CC = "CC";
+    private static final String TYPE_LA = "LA";
+
     /**
      * solde : solde du compte
      */
@@ -26,32 +29,16 @@ public class CompteBancaire {
     private String type;
 
     /**
-     * @param solde
-     * @param decouvert
-     * @param type
-     */
-    public CompteBancaire(String type, double solde, double decouvert) {
-        super();
-        this.type = type;
-        this.solde = solde;
-        this.decouvert = decouvert;
-    }
-
-
-    /**
-     * Ce constructeur est utilisé pour créer un compte de type Livret A
-     *
-     * @param type             = LA
-     * @param solde            représente le solde du compte
-     * @param decouvert        représente le découvert autorisé
-     * @param tauxRemuneration représente le taux de rémunération du livret A
+     * @param type             Le type du compte (CC ou LA)
+     * @param solde            Le solde initial du compte
+     * @param decouvert        Le découvert autorisé pour les comptes courants
+     * @param tauxRemuneration Le taux de rémunération pour les livrets A
      */
     public CompteBancaire(String type, double solde, double decouvert, double tauxRemuneration) {
-        super();
         this.type = type;
         this.solde = solde;
-        this.decouvert = decouvert;
-        this.tauxRemuneration = tauxRemuneration;
+        this.decouvert = (type.equals(TYPE_CC)) ? decouvert : 0; // Le découvert est autorisé seulement pour les comptes courants
+        this.tauxRemuneration = (type.equals(TYPE_LA)) ? tauxRemuneration : 0; // Le taux de rémunération est applicable seulement pour les livrets A
     }
 
     /**
@@ -64,25 +51,28 @@ public class CompteBancaire {
     }
 
     /**
-     * Ajoute un montant au solde
+     * Débite un montant du solde
      *
-     * @param montant
+     * @param montant Le montant à débiter
      */
     public void debiterMontant(double montant) {
-        if (type.equals("CC")) {
-            if (this.solde - montant > decouvert) {
-                this.solde = solde - montant;
+        if (type.equals(TYPE_CC)) {
+            if (montant <= solde + decouvert) {
+                solde -= montant;
             }
-        } else if (type.equals("LA")) {
-            if (this.solde - montant > 0) {
-                this.solde = solde - montant;
+        } else if (type.equals(TYPE_LA)) {
+            if (montant <= solde) {
+                solde -= montant;
             }
         }
     }
 
-    public void appliquerRemuAnnuelle() {
-        if (type.equals("LA")) {
-            this.solde = solde + solde * tauxRemuneration / 100;
+    /**
+     * Applique la rémunération annuelle pour les livrets A
+     */
+    public void appliquerRemunerationAnnuelle() {
+        if (type.equals(TYPE_LA)) {
+            solde += solde * tauxRemuneration / 100;
         }
     }
 

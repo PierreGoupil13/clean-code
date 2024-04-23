@@ -20,6 +20,26 @@ public class Caisse {
     }
 
     /**
+     * Détermine si la caisse peut accepter l'item en fonction de son poids.
+     *
+     * @param item L'item à évaluer.
+     * @return true si la caisse peut accepter l'item, false sinon.
+     */
+    public boolean accepteItem(Item item) {
+        // La caisse accepte l'item si son poids est inférieur à 5, 5-20, ou supérieur à 20 en fonction de la taille de la caisse
+        switch (nom) {
+            case "Petits objets":
+                return item.getPoids() < 5;
+            case "Moyens objets":
+                return item.getPoids() >= 5 && item.getPoids() <= 20;
+            case "Grands objets":
+                return item.getPoids() > 20;
+            default:
+                return false; // Par défaut, la caisse ne peut pas accepter l'item
+        }
+    }
+
+    /**
      * Getter pour l'attribut nom
      *
      * @return the nom

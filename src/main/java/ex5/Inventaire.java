@@ -14,23 +14,33 @@ public class Inventaire {
         caisses.add(new Caisse("Grands objets"));
     }
 
+    /**
+     * Ajoute un item à la caisse appropriée dans l'inventaire.
+     *
+     * @param item L'item à ajouter.
+     */
     public void addItem(Item item) {
-
-        //TODO Faites évoluer ce code (idée: c'est le caisse qui doit "savoir" si elle peut accepter un objet ou non)
-        if (item.getPoids() < 5) {
-            caisses.get(0).getItems().add(item);
-        }
-        if (item.getPoids() >= 5 && item.getPoids() <= 20) {
-            caisses.get(1).getItems().add(item);
-        }
-        if (item.getPoids() >= 20) {
-            caisses.get(2).getItems().add(item);
+        // Itération sur chaque caisse
+        for (Caisse caisse : caisses) {
+            // Si la caisse accepte l'item, on l'ajoute et on quitte la boucle
+            if (caisse.accepteItem(item)) {
+                caisse.getItems().add(item);
+                break;
+            }
         }
     }
 
+    /**
+     * Calcule et retourne le nombre total d'items dans toutes les caisses de l'inventaire.
+     *
+     * @return Le nombre total d'items dans l'inventaire.
+     */
     public int taille() {
-
-        //TODO faites évoluer ce code.
-        return caisses.get(0).getItems().size() + caisses.get(1).getItems().size() + caisses.get(2).getItems().size();
+        int total = 0;
+        // Calcul de la taille totale en itérant sur chaque caisse
+        for (Caisse caisse : caisses) {
+            total += caisse.getItems().size();
+        }
+        return total;
     }
 }
